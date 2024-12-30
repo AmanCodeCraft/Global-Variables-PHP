@@ -1,14 +1,16 @@
 <?php 
-    session_start();
-    if(isset($_SESSION['user-id'])){
-        echo "";
-    }else{
-        header ('location:user.php');
-    }
+include 'connection.php';
 ?>
 
-<?php 
-include 'connection.php';
+<?php
+session_start();
+
+if (isset($_SESSION['user-id'])) {
+    echo "";
+}else{
+    header('location: user.php');
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -25,8 +27,6 @@ include 'connection.php';
             background-color: #f8f9fa;
             color: #333;
         }
-
-
 
         table {
             width: 100%;
@@ -65,19 +65,40 @@ include 'connection.php';
             color: #ff0000;
             font-size: 18px;
         }
+
+        h3 {
+            display: inline-block;
+            position: relative;
+            background-color: #007bff;
+            padding: 20px;
+            border-radius: 15px;
+            left: 70%;
+            bottom: 70px;
+        }
+
+        h3>a {
+            text-decoration: none;
+            color: white;
+        }
+
     </style>
 </head>
 <body>
     <h1>Student Records</h1>
+    <h3><a href="./userLogout.php">User Logout</a></h3>
     <?php
-    $sql = "SELECT id, sname, fname, mname, phone, address FROM student_data";
+    $id= $_SESSION['user-id'];
+
+    $sql = "SELECT file, id, password, sname, fname, mname, phone, address FROM student_data WHERE id=$id";
 
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
         echo "<table>
                 <tr>
+                    <th>Profile</th>
                     <th>ID</th>
+                    <th>Password</th>
                     <th>Student Name</th>
                     <th>Father Name</th>
                     <th>Mother Name</th>
@@ -87,7 +108,9 @@ include 'connection.php';
         
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>";
+            echo "<td>" . $row['file'] . "</td>";
             echo "<td>" . $row['id'] . "</td>";
+            echo "<td>" . $row['password'] . "</td>";
             echo "<td>" . $row['sname'] . "</td>";
             echo "<td>" . $row['fname'] . "</td>";
             echo "<td>" . $row['mname'] . "</td>";
