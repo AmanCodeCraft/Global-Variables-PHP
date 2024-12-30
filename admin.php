@@ -1,10 +1,9 @@
-
 <?php 
     session_start();
     if(isset($_SESSION['user-id'])){
         header ('location:adminDashboard.php');
     }
-?>
+?>             
 
 <!--.... starting html code here.... -->
 <!doctype html>
@@ -13,16 +12,29 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>admin login</title>
+    <title>Admin login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" >
     <link rel="stylesheet" href="./style.css">
+    <style>
+        h3{
+            display: inline-block;
+            position: relative;
+            left: 55%;
+            top: 60px;
+        }
+        h3>a{
+            text-decoration: none;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Admin Login Page</h1>
+    <h1>Admin Login Page </h1>
+    <h3><a href="./user.php">User Login</a></h3>
     <form action="admin.php" method="post">
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">User Name</label>
+            <label for="exampleInputEmail1" class="form-label">Admin Name</label>
             <input type="text" name="username" class="form-control" id="exampleInputEmail1">
         </div>
         <div class="mb-3">
