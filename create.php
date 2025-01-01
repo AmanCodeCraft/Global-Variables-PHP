@@ -21,15 +21,14 @@
 <body>
     <div class="navigation flexo">
         <div class="nav-btn"><a href="./adminDashboard.php">Admin Dashboard</a></div>
-        <div class="nav-btn"><a href="./admin.php">Admin Login</a></div>
-        <div class="flexo">
-            <a href="logout.php" target="_blank">
-                <div class="box flexo">logout</div>
-            </a>
-        </div>
+        <div class="nav-btn"><a href="./logout.php">Admin logout</a></div>
     </div>
     <h1>New Student</h1>
     <form action="" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" id="exampleInputEmail1">
+        </div>
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Student Name</label>
             <input type="text" name="sname" class="form-control" id="exampleInputEmail1">
@@ -50,6 +49,10 @@
             <label for="exampleInputPassword1" class="form-label">Address</label>
             <input type="text" name="address" class="form-control" id="exampleInputPassword1">
         </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">File</label>
+            <input type="file" name="file" class="form-control" id="exampleInputPassword1">
+        </div>
 
         <button type="login" name="submit" class="login-btn flexo">Submit</button>
     </form>
@@ -61,16 +64,20 @@
 <?php
 
 @include 'connection.php';
+@include 'file.php';
 
 if (isset($_POST['submit'])) {
 
+    $password=$_POST['password'];
     $sname = $_POST['sname'];
     $fname = $_POST['fname'];
     $mname = $_POST['mname'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
+    $file = $_FILES['file'];
+    $filename = $file['name'];
 
-    $sql = "INSERT INTO `student_data`(`sname`, `fname`, `mname`, `phone`, `address`) VALUES ('$sname','$fname','$mname','$phone','$address')";
+    $sql = "INSERT INTO `student_data`(`password`, `sname`, `fname`, `mname`, `phone`, `address`,`file`) VALUES ( '$password','$sname','$fname','$mname','$phone','$address', '$filename')";
 
     $result = mysqli_query($conn, $sql);
 
