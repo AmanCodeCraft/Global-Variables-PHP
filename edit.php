@@ -1,14 +1,15 @@
-<?php 
-    session_start();
-    if(isset($_SESSION['user-id'])){
-        echo "";
-    }else{
-        header ('location:admin.php');
-    }
+<?php
+session_start();
+if (isset($_SESSION['user-id'])) {
+    echo "";
+} else {
+    header('location:admin.php');
+}
 ?>
 <?php
 
 @include("./connection.php");
+@include("./file.php");
 
 $id = $_GET['id'];
 $sql = "SELECT * FROM student_data WHERE id=$id";
@@ -16,20 +17,24 @@ $result = mysqli_query($conn, $sql);
 
 
 if (isset($_POST['submit'])) {
+    $password = $_POST['password'];
     $sname = $_POST['sname'];
     $fname = $_POST['fname'];
     $mname = $_POST['mname'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
+    $file =$_POST['file'];
+    $filename= $file['name'];
 
-    $sql = "UPDATE student_data SET sname='$sname', fname='$fname', mname='$mname', phone='$phone' ,address='$address' WHERE id=$id";
+    $sql = "UPDATE student_data SET password='$password', sname='$sname', fname='$fname', mname='$mname', phone='$phone' ,address='$address', file='$file' WHERE id=$id";
 
     if (mysqli_query($conn, $sql)) {
-        ?>
-        <script>   alert('Updated Successfull!');
-        window.open('updatetable.php','_self');
+?>
+        <script>
+            alert('Updated Successfull!');
+            window.open('updatetable.php', '_self');
         </script>
-        <?php
+<?php
     } else {
         echo "Error updating record: " . mysqli_error($conn);
     }
@@ -49,8 +54,12 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
-<h1>Update Student Data</h1>
+    <h1>Update Student Data</h1>
     <form action="" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" id="exampleInputEmail1">
+        </div>
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Student Name</label>
             <input type="text" name="sname" class="form-control" id="exampleInputEmail1">
@@ -70,6 +79,10 @@ if (isset($_POST['submit'])) {
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Address</label>
             <input type="text" name="address" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">file</label>
+            <input type="file" name="file" class="form-control" id="exampleInputPassword1">
         </div>
         <button type="login" name="submit" class="login-btn flexo">Submit</button>
     </form>
